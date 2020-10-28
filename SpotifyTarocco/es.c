@@ -24,9 +24,8 @@ void main(){
     if(fp==NULL){
         printf("File non trovato");
     }else{
-        for(k=0;k<MAXSONG;k++){
-
-
+        while(fscanf(fp,"%d,%s,%s", &playlist[k].numero, playlist[k].titolo, playlist[k].artista)!=EOF){
+            k++;
         }
     }
 
