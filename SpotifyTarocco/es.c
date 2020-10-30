@@ -1,21 +1,54 @@
 #include <stdlib.h>
 #include <stdio.h>
-
-#define LUNG 50
-#define MAXSONG 10
+#include <string.h>
 
 typedef struct canzone{
     int numero;
-    char titolo[LUNG];
-    char artista[LUNG];
+    char titolo[100];
+    char artista[100];
 }Canzone;
+
+/*
+void leggiFile(Canzone playlist[],FILE *fp, int *cnt){
+    char lettera;
+    char parola[100];
+    int indice=0;
+
+    while(fscanf(fp,"%c",&lettera)!=EOF){
+        if(lettera==','){
+            parola[strlen(parola)]='\0';
+
+            switch(indice){
+                case 0:
+                    playlist[*cnt].numero=(*cnt)+1;
+                    break;
+                case 1:
+                    strcpy(playlist[*cnt].titolo, parola);
+                    break;
+                case 2:
+                    strcpy(playlist[*cnt].artista, parola);
+                    break;
+            }
+
+            indice=(indice+1)%3;
+            memset(&parola[0],0,sizeof(parola));
+            if(indice==0)
+                *cnt = *cnt +1;
+            }else{
+                parola[strlen(parola)] = lettera;
+            }
+        }
+        return;
+}
+
+*/
 
 
 
 void main(){
     int k=0;
 
-    Canzone playlist[MAXSONG];
+    Canzone playlist[50];
 
     FILE *fp;
 
@@ -32,3 +65,9 @@ void main(){
    
 
 }
+
+while(fgets(buffer,BSIZE,fp)){
+
+}ù
+
+//strdup copia stringa
