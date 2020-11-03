@@ -37,13 +37,10 @@ void randomSong(Canzone playlist[], int n){ //prende il contenuto della struttur
 
 void main(){
     int k=0;
-
     Canzone playlist[DIM];
-
+    char nFile[] = "canzoni.csv";
     FILE *fp;
-
-    fp = fopen("canzoni.csv","r");
-
+    fp = fopen(nFile,"r");
     char linea[LUNG_P];
 
     if(fp==NULL){
