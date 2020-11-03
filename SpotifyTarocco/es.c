@@ -14,23 +14,23 @@ typedef struct canzone{     //struttura canzone, suddivisoine file csv
     char artista[LUNG];
 }Canzone;
 
-void randomSong(Canzone playlist[], int n){ //prende il contenuto della struttura playlist e lo carica rndomizzato in un vettore, poi lo stampa
+void randomSong(Canzone songs[], int n){ //prende il contenuto della struttura playlist e lo carica rndomizzato in un vettore, poi lo stampa
     int k, i, j;
     
     srand(time(NULL));
     int vetRand[DIM];
 
-    for(k=0;k<n;k++){
+    for(int k=0;k<n;k++){
         vetRand[k]=rand()%n;
-        for(i=0;i<k;i++){
+        for(int i=0;i<k;i++){
             if(vetRand[k] == vetRand[i]){
                 k--;
                 break;
             }  
         }
     }
-    for(j=0;j<n;j++){
-        printf("%d %s  %s\n", playlist[vetRand[k]].numero, playlist[vetRand[k]].titolo, playlist[vetRand[k]].artista);
+    for(int k=0;k<n;k++){
+        printf("%d %s  %s\n", songs[vetRand[k]].numero, songs[vetRand[k]].titolo, songs[vetRand[k]].artista);
     }
 
 }
