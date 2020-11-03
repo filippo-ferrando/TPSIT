@@ -1,73 +1,60 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
+#include <stdbool.h>
 
-typedef struct canzone{
+#define LUNG 30
+#define DIM 50
+#define LUNG_P 200
+
+typedef struct canzone{     //struttura canzone, suddivisoine file csv
     int numero;
-    char titolo[100];
-    char artista[100];
+    char titolo[LUNG];
+    char artista[LUNG];
 }Canzone;
 
-/*
-void leggiFile(Canzone playlist[],FILE *fp, int *cnt){
-    char lettera;
-    char parola[100];
-    int indice=0;
+void randomSong(Canzone playlist[], int n){ //prende il contenuto della struttura playlist e lo carica rndomizzato in un vettore, poi lo stampa
+    int k, i, j;
+    
+    srand(time(NULL));
+    int vetRand[DIM];
 
-    while(fscanf(fp,"%c",&lettera)!=EOF){
-        if(lettera==','){
-            parola[strlen(parola)]='\0';
-
-            switch(indice){
-                case 0:
-                    playlist[*cnt].numero=(*cnt)+1;
-                    break;
-                case 1:
-                    strcpy(playlist[*cnt].titolo, parola);
-                    break;
-                case 2:
-                    strcpy(playlist[*cnt].artista, parola);
-                    break;
-            }
-
-            indice=(indice+1)%3;
-            memset(&parola[0],0,sizeof(parola));
-            if(indice==0)
-                *cnt = *cnt +1;
-            }else{
-                parola[strlen(parola)] = lettera;
-            }
+    for(k=0;k<n;k++){
+        vetRand[k]=rand()%n;
+        for(i=0;i<k;i++){
+            if(vetRand[k] == vetRand[i]){
+                k--;
+                break;
+            }  
         }
-        return;
+    }
+    for(j=0;j<n;j++){
+        printf("%d %s  %s\n", playlist[vetRand[k]].numero, playlist[vetRand[k]].titolo, playlist[vetRand[k]].artista);
+    }
+
 }
-
-*/
-
-
 
 void main(){
     int k=0;
 
-    Canzone playlist[50];
+    Canzone playlist[DIM];
 
     FILE *fp;
 
-    fopen("canzoni.csv","r");
+    fp = fopen("canzoni.csv","r");
+
+    char linea[LUNG_P];
 
     if(fp==NULL){
         printf("File non trovato");
     }else{
-        while(fscanf(fp,"%d,%s,%s", &playlist[k].numero, playlist[k].titolo, playlist[k].artista)!=EOF){
+        while(fgets(linea,LUNG_P,fp)){
+            playlist[k].numero=atoi(strtok(linea,","));
+            strcpy(playlist[k].titolo,strtok(NULL,","));
+            strcpy(playlist[k].artista,strtok(NULL,"\n"));
             k++;
         }
+        randomSong(playlist,k);
     }
-
-   
-
 }
-
-while(fgets(buffer,BSIZE,fp)){
-
-}ù
-
-//strdup copia stringa
