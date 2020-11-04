@@ -40,16 +40,40 @@ void randomSong(Canzone songs[], int n)
     }
 }
 
+int dimVett(FILE *file){
+    file = fopen("canzoni.csv","r");
+
+    char riga[LUNG_P];
+    int k = 0;
+
+    int *n_righe;
+
+    if(file==NULL){
+        printf("Il file non esiste");
+    }else{
+        while(fgets(riga, LUNG_P, file)){
+            k++;
+        }
+
+    }
+    n_righe = (int*)malloc(k*sizeof(Canzone));
+
+    return *n_righe;
+}
+
 void main()
 {
     int k = 0;
     char nFile[] = "canzoni.csv";
     char linea[LUNG_P];
-
-    Canzone playlist[DIM];
+    int dimPlaylist;
     
     FILE *fp;
     fp = fopen(nFile, "r");
+
+    dimPlaylist = dimVett(fp);
+
+    Canzone playlist[dimPlaylist];
     
     
     if (fp == NULL)
