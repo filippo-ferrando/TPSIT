@@ -15,19 +15,19 @@ typedef struct canzone
     char artista[LUNG];
 } Canzone;
 
-void randomSong(Canzone songs[], int n)
+void randomSong(Canzone *songs, int n)
 { //prende il contenuto della struttura playlist e lo carica rndomizzato in un vettore, poi lo stampa
-    int k, i, j;
+    int k, i;
 
     srand(time(NULL));
-    int vetRand[DIM];
+    int *vetRand = (int*)malloc(n * sizeof(int));
 
     for (int k = 0; k < n; k++)
     {
-        vetRand[k] = rand() % n;
+        *(vetRand+k) = rand() % n;
         for (int i = 0; i < k; i++)
         {
-            if (vetRand[k] == vetRand[i])
+            if (*(vetRand+k) == *(vetRand+i))
             {
                 k--;
                 break;
@@ -36,14 +36,14 @@ void randomSong(Canzone songs[], int n)
     }
     for (int k = 0; k < n; k++)
     {
-        printf("%d %s  %s\n", songs[vetRand[k]].numero, songs[vetRand[k]].titolo, songs[vetRand[k]].artista);
+        printf("%d %s  %s\n", (songs + *(vetRand+k))->numero, (songs + *(vetRand+k))->titolo, (songs + *(vetRand+k))->artista);
     }
 }
 
-int dimVett(FILE *file){
-    file = fopen("canzoni.csv","r");
+int dimVett(char *file){
+    FILE *file = fopen(file,"r");
 
-    char riga[LUNG_P];
+    char *riga = (char*)malloc(LUNG*sizeof(char));
     int k = 0;
 
     int *n_righe;
@@ -51,14 +51,12 @@ int dimVett(FILE *file){
     if(file==NULL){
         printf("Il file non esiste");
     }else{
-        while(fgets(riga, LUNG_P, file)){
+        while(fgets(riga, LUNG_P, file) != NULL){
             k++;
         }
 
     }
-    n_righe = (int*)malloc(k*sizeof(Canzone));
-
-    return *n_righe;
+    return k;
 }
 
 void main()
@@ -67,13 +65,14 @@ void main()
     char nFile[] = "canzoni.csv";
     char linea[LUNG_P];
     int dimPlaylist;
-    
+
     FILE *fp;
     fp = fopen(nFile, "r");
+  
 
     dimPlaylist = dimVett(fp);
 
-    Canzone playlist[dimPlaylist];
+    Canzone *playlist = (Canzone*)malloc(dimPlaylist * sizeof(Canzone));
     
     
     if (fp == NULL)
@@ -89,6 +88,6 @@ void main()
             strcpy(playlist[k].artista, strtok(NULL, "\n"));
             k++;
         }
-        randomSong(playlist, k);
+        randomSong(playlist, dimPlaylist);
     }
 }
