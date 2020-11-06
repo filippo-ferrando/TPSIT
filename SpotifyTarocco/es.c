@@ -9,14 +9,14 @@
 #define LUNG_P 200
 
 typedef struct canzone
-{ //struttura canzone, suddivisoine file csv
+{   //struttura canzone, suddivisoine file csv
     int numero;
     char titolo[LUNG];
     char artista[LUNG];
 } Canzone;
 
 void randomSong(Canzone *songs, int n)
-{ //prende il contenuto della struttura playlist e lo carica rndomizzato in un vettore, poi lo stampa
+{   //prende il contenuto della struttura playlist e lo carica rndomizzato in un vettore, poi lo stampa
     int k, i;
 
     srand(time(NULL));
