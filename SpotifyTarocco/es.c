@@ -38,6 +38,8 @@ void randomSong(Canzone *songs, int n)
     {
         printf("%d. %s  %s\n", (songs + *(vetRand+k))->numero, (songs + *(vetRand+k))->titolo, (songs + *(vetRand+k))->artista);
     }
+
+    free(vetRand);
 }
 
 int dimVett(char *file){
@@ -57,6 +59,9 @@ int dimVett(char *file){
         }
 
     }
+
+    free(riga);
+
     return k;
 }
 
@@ -91,4 +96,6 @@ void main()
         }
         randomSong(playlist, dimPlaylist);
     }
+
+    free(playlist);
 }
