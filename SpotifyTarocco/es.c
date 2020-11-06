@@ -83,9 +83,9 @@ void main()
     {
         while (fgets(linea, LUNG_P, fp))
         {
-            playlist[k].numero = atoi(strtok(linea, ","));
-            strcpy(playlist[k].titolo, strtok(NULL, ","));
-            strcpy(playlist[k].artista, strtok(NULL, "\n"));
+            *(playlist+k)->numero = atoi(strtok(linea, ","));
+            strcpy(*(playlist+k)->titolo, strtok(NULL, ","));
+            strcpy(*(playlist+k)->artista, strtok(NULL, "\n"));
             k++;
         }
         randomSong(playlist, dimPlaylist);
