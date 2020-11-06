@@ -36,14 +36,15 @@ void randomSong(Canzone *songs, int n)
     }
     for (int k = 0; k < n; k++)
     {
-        printf("%d %s  %s\n", (songs + *(vetRand+k))->numero, (songs + *(vetRand+k))->titolo, (songs + *(vetRand+k))->artista);
+        printf("%d. %s  %s\n", (songs + *(vetRand+k))->numero, (songs + *(vetRand+k))->titolo, (songs + *(vetRand+k))->artista);
     }
 }
 
 int dimVett(char *file){
-    FILE *file = fopen(file,"r");
+    FILE *fp;
+    fp = fopen(file,"r");
 
-    char *riga = (char*)malloc(LUNG*sizeof(char));
+    char *riga = (char*)malloc(LUNG_P*sizeof(char));
     int k = 0;
 
     int *n_righe;
@@ -51,7 +52,7 @@ int dimVett(char *file){
     if(file==NULL){
         printf("Il file non esiste");
     }else{
-        while(fgets(riga, LUNG_P, file) != NULL){
+        while(fgets(riga, LUNG_P, fp) != NULL){
             k++;
         }
 
@@ -70,7 +71,7 @@ void main()
     fp = fopen(nFile, "r");
   
 
-    dimPlaylist = dimVett(fp);
+    dimPlaylist = dimVett("canzoni.csv");
 
     Canzone *playlist = (Canzone*)malloc(dimPlaylist * sizeof(Canzone));
     
@@ -83,9 +84,9 @@ void main()
     {
         while (fgets(linea, LUNG_P, fp))
         {
-            *(playlist+k)->numero = atoi(strtok(linea, ","));
-            strcpy(*(playlist+k)->titolo, strtok(NULL, ","));
-            strcpy(*(playlist+k)->artista, strtok(NULL, "\n"));
+            (playlist+k)->numero = atoi(strtok(linea, ","));
+            strcpy((playlist+k)->titolo, strtok(NULL, ","));
+            strcpy((playlist+k)->artista, strtok(NULL, "\n"));
             k++;
         }
         randomSong(playlist, dimPlaylist);
