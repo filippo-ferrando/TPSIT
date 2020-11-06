@@ -36,7 +36,7 @@ void randomSong(Canzone songs[], int n)
     }
     for (int k = 0; k < n; k++)
     {
-        printf("%d %s  %s\n", songs[vetRand[k]].numero, songs[vetRand[k]].titolo, songs[vetRand[k]].artista);
+        printf("%d. %s - %s\n", songs[vetRand[k]].numero, songs[vetRand[k]].titolo, songs[vetRand[k]].artista);
     }
 }
 
