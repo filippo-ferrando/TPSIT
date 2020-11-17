@@ -31,6 +31,7 @@ casi_testati
 
 #define LUNG 25
 #define SIZE 1000
+#define TOP 3
 
 typedef struct regione
 {
@@ -57,27 +58,32 @@ typedef struct regione
     bool controllato;
 } Regione;
 
-void TopRegioniTerapiaIntensiva(Regione *regioni, int dim)//trova il massimo e stampa anche i 2 prima
+void TopRegioniTerapiaIntensiva(Regione *regioni, int dim) //trova il massimo e stampa anche i 2 prima
 {
     int k, i;
     int max;
-    int* vet=(int *)malloc(3 * sizeof(int));
+    int *vet = (int *)malloc(TOP * sizeof(int));
     Regione temp;
 
-    for(k=0;k<3;k++){
-        max=0;
-        for(i=0;i<dim;i++){
-            if((regioni + max)->terapia_intensiva < (regioni + i)->terapia_intensiva){
-                if((regioni + i)->controllato == false){
+    for (k = 0; k < TOP; k++)
+    {
+        max = 0;
+        for (i = 0; i < dim; i++)
+        {
+            if ((regioni + max)->terapia_intensiva < (regioni + i)->terapia_intensiva)
+            {
+                if ((regioni + i)->controllato == false)
+                {
                     max = i;
-                } 
+                }
             }
         }
         (regioni + max)->controllato = true;
         *(vet + k) = max;
-        printf("\n%s %d", (regioni + max)->denominazione_regione, (regioni + max)->terapia_intensiva);
+        printf("\n%s: %d", (regioni + max)->denominazione_regione, (regioni + max)->terapia_intensiva);
     }
-    for(i=0;i<3;i++){
+    for (i = 0; i < TOP; i++)
+    {
         (regioni + *(vet + i))->controllato = false;
     }
     free(vet);
@@ -97,24 +103,29 @@ void TopRegioniMenoCasi(Regione *regioni, int dim) //trova il massimo tra il num
 {
     int k, i;
     int max;
-    int* vet=(int *)malloc(3 * sizeof(int));
+    int *vet = (int *)malloc(TOP * sizeof(int));
     Regione temp;
 
-    for(k=0;k<3;k++){
-        max=0;
-        for(i=0;i<dim;i++){
-            if((regioni + max)->totale_casi > (regioni + i)->totale_casi){
-                if((regioni + i)->controllato == false){
+    for (k = 0; k < TOP; k++)
+    {
+        max = 0;
+        for (i = 0; i < dim; i++)
+        {
+            if ((regioni + max)->totale_casi > (regioni + i)->totale_casi)
+            {
+                if ((regioni + i)->controllato == false)
+                {
                     max = i;
-                } 
+                }
             }
         }
         (regioni + max)->controllato = true;
         *(vet + k) = max;
-        printf("\n%s %d", (regioni + max)->denominazione_regione, (regioni + max)->totale_casi);
+        printf("\n%s: %d", (regioni + max)->denominazione_regione, (regioni + max)->totale_casi);
     }
 
-    for(i=0;i<3;i++){
+    for (i = 0; i < TOP; i++)
+    {
         (regioni + *(vet + i))->controllato = false;
     }
     free(vet);
@@ -133,18 +144,18 @@ void main()
     else
     {
         while (fgets(buffer, SIZE, fp))
-        { 
+        {
             k++;
         }
 
         fclose(fp);
         fp = fopen("data.csv", "r");
-        regioni = (Regione *)malloc(k * sizeof(Regione)); 
+        regioni = (Regione *)malloc(k * sizeof(Regione));
         k = 0;
 
         while (fgets(buffer, SIZE, fp))
         {
-            strcpy((regioni + k)->data, strtok(buffer, ","));   //strtok per l'estrapolazione dalla stringa del file
+            strcpy((regioni + k)->data, strtok(buffer, ",")); //strtok per l'estrapolazione dalla stringa del file
             strcpy((regioni + k)->stato, strtok(NULL, ","));
             (regioni + k)->codice_regione = atoi(strtok(NULL, ","));
             strcpy((regioni + k)->denominazione_regione, strtok(NULL, ","));
@@ -172,7 +183,7 @@ void main()
 
         printf("\n\nTop 3 delle regioni per numero di ricoveri in terapia intensiva:");
         TopRegioniTerapiaIntensiva(regioni, k);
-        
+
         printf("\n\nTop 3 delle regioni con meno casi totali positivi:");
         TopRegioniMenoCasi(regioni, k);
     }
