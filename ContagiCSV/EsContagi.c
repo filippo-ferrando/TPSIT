@@ -54,28 +54,33 @@ typedef struct regione
     int totale_casi;
     int tamponi;
     int casi_testati;
+    bool controllato;
 } Regione;
 
 void TopRegioniTerapiaIntensiva(Regione *regioni, int dim)//trova il massimo e stampa anche i 2 prima
 {
     int k, i;
+    int max;
+    int* vet=(int *)malloc(3 * sizeof(int));
     Regione temp;
-    for (i = dim - 1; i > 0; i--)
-    {
-        for (k = 0; k < sup; k++)
-        {
-            if ((regioni + k)->terapia_intensiva < (regioni + k + 1)->terapia_intensiva)
-            {
-                temp = *(regioni + k);
-                *(regioni + k) = *(regioni + k + 1);
-                *(regioni + k + 1) = temp;
+
+    for(k=0;k<3;k++){
+        max=0;
+        for(i=0;i<dim;i++){
+            if((regioni + max)->terapia_intensiva < (regioni + i)->terapia_intensiva){
+                if((regioni + i)->controllato == false){
+                    max = i;
+                } 
             }
         }
+        (regioni + max)->controllato = true;
+        *(vet + k) = max;
+        printf("\n%s %d", (regioni + max)->denominazione_regione, (regioni + max)->terapia_intensiva);
     }
-    for (int j = 0; j < 3; j++)
-    {
-        printf("\n%s:%d", (regioni + j)->denominazione_regione, (regioni + j)->terapia_intensiva);
+    for(i=0;i<3;i++){
+        (regioni + *(vet + i))->controllato = false;
     }
+    free(vet);
 }
 
 void SommaCasiTerapiaIntensiva(Regione *regioni, int dim) //somma casi
@@ -91,23 +96,28 @@ void SommaCasiTerapiaIntensiva(Regione *regioni, int dim) //somma casi
 void TopRegioniMenoCasi(Regione *regioni, int dim) //trova il massimo tra il numero dei contagi delle regioni estampa anche i 2 prima
 {
     int k, i;
-    Regione temp;//temporaneo per lo scambio
-    for (i = dim - 1; i > 0; i--)
-    {
-        for (k = 0; k < sup; k++)
-        {
-            if ((regioni + k)->totale_casi > (regioni + k + 1)->totale_casi)
-            {
-                temp = *(regioni + k);
-                *(regioni + k) = *(regioni + k + 1);
-                *(regioni + k + 1) = temp;
+    int max;
+    int* vet=(int *)malloc(3 * sizeof(int));
+    Regione temp;
+
+    for(k=0;k<3;k++){
+        max=0;
+        for(i=0;i<dim;i++){
+            if((regioni + max)->totale_casi > (regioni + i)->totale_casi){
+                if((regioni + i)->controllato == false){
+                    max = i;
+                } 
             }
         }
+        (regioni + max)->controllato = true;
+        *(vet + k) = max;
+        printf("\n%s %d", (regioni + max)->denominazione_regione, (regioni + max)->totale_casi);
     }
-    for (int j = 0; j < 3; j++)
-    {
-        printf("\n%s:%d", (regioni + j)->denominazione_regione, (regioni + j)->totale_casi);
+
+    for(i=0;i<3;i++){
+        (regioni + *(vet + i))->controllato = false;
     }
+    free(vet);
 }
 
 void main()
@@ -154,6 +164,7 @@ void main()
             (regioni + k)->totale_casi = atoi(strtok(NULL, ","));
             (regioni + k)->tamponi = atoi(strtok(NULL, ","));
             (regioni + k)->casi_testati = atoi(strtok(NULL, "\n"));
+            (regioni + k)->controllato = false;
             k++;
         }
         printf("Totale dei ricoverati in terapia intensiva:");
