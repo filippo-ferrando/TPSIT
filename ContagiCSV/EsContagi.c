@@ -58,9 +58,9 @@ typedef struct regione
 
 void TopRegioniTerapiaIntensiva(Regione *regioni, int dim)//trova il massimo e stampa anche i 2 prima
 {
-    int k, sup;
+    int k, i;
     Regione temp;
-    for (sup = dim - 1; sup > 0; sup--)
+    for (i = dim - 1; i > 0; i--)
     {
         for (k = 0; k < sup; k++)
         {
@@ -90,9 +90,9 @@ void SommaCasiTerapiaIntensiva(Regione *regioni, int dim) //somma casi
 
 void TopRegioniMenoCasi(Regione *regioni, int dim) //trova il massimo tra il numero dei contagi delle regioni estampa anche i 2 prima
 {
-    int k, sup;
+    int k, i;
     Regione temp;//temporaneo per lo scambio
-    for (sup = dim - 1; sup > 0; sup--)
+    for (i = dim - 1; i > 0; i--)
     {
         for (k = 0; k < sup; k++)
         {
