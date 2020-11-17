@@ -78,12 +78,12 @@ void TopRegioniTerapiaIntensiva(Regione *regioni, int dim)
 
 void SommaCasiTerapiaIntensiva(Regione *regioni, int dim)
 {
-    int sommaTI = 0;
+    int somma = 0;
     for (int j = 0; j < dim; j++)
     {
-        sommaTI += (regioni + j)->terapia_intensiva;
+        somma += (regioni + j)->terapia_intensiva;
     }
-    printf("\n%d", sommaTI);
+    printf("\n%d", somma);
 }
 
 void TopRegioniMenoCasi(Regione *regioni, int dim)
@@ -112,8 +112,7 @@ void main()
 {
     FILE *fp;
     Regione *regioni;
-    char *buffer;
-    buffer = malloc(SIZE * sizeof(char));
+    char *buffer = (char *)malloc(SIZE * sizeof(char));
     int k = 0;
     if ((fp = fopen("data.csv", "r")) == NULL)
     {
@@ -127,7 +126,7 @@ void main()
         }
         fclose(fp);
         fp = fopen("data.csv", "r");
-        regioni = malloc(k * sizeof(Regione)); 
+        regioni = (Regione *)malloc(k * sizeof(Regione)); 
         k = 0;
         while (fgets(buffer, SIZE, fp))
         {
