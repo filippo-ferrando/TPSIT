@@ -5,6 +5,8 @@
 #include <time.h>
 
 /*
+CAMPI FILE CSV
+
 data,
 stato,
 codice_regione,
@@ -89,7 +91,7 @@ void SommaCasiTerapiaIntensiva(Regione *regioni, int dim) //somma casi
 void TopRegioniMenoCasi(Regione *regioni, int dim) //trova il massimo tra il numero dei contagi delle regioni estampa anche i 2 prima
 {
     int k, sup;
-    Regione temp;
+    Regione temp;//temporaneo per lo scambio
     for (sup = dim - 1; sup > 0; sup--)
     {
         for (k = 0; k < sup; k++)
@@ -124,10 +126,12 @@ void main()
         { 
             k++;
         }
+
         fclose(fp);
         fp = fopen("data.csv", "r");
         regioni = (Regione *)malloc(k * sizeof(Regione)); 
         k = 0;
+
         while (fgets(buffer, SIZE, fp))
         {
             strcpy((regioni + k)->data, strtok(buffer, ","));   //strtok per l'estrapolazione dalla stringa del file
@@ -152,15 +156,15 @@ void main()
             (regioni + k)->casi_testati = atoi(strtok(NULL, "\n"));
             k++;
         }
-        printf("totale dei ricoverati in terapia intensiva:");
+        printf("Totale dei ricoverati in terapia intensiva:");
         SommaCasiTerapiaIntensiva(regioni, k);
 
-        printf("\n\ntop 3 delle regioni per numero di ricoveri in terapia intensiva:");
+        printf("\n\nTop 3 delle regioni per numero di ricoveri in terapia intensiva:");
         TopRegioniTerapiaIntensiva(regioni, k);
         
-        printf("\n\ntop 3 delle regioni con meno casi totali positivi:");
+        printf("\n\nTop 3 delle regioni con meno casi totali positivi:");
         TopRegioniMenoCasi(regioni, k);
     }
-    free(regioni);
+    free(regioni); //free memory
     free(buffer);
 }
