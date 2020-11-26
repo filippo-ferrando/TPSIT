@@ -4,3 +4,6 @@
 
 <img title="image" src="https://github.com/filippo-ferrando/TPSIT/blob/master/output-onlinepngtools.png?raw=true" alt="" width="377" data-align="center">
 
+
+
+[Learn list](https://www.learn-c.org/en/Linked_lists)
