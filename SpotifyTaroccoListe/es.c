@@ -36,6 +36,7 @@ void read(Song* playlist, FILE *f, int *cnt){
         line = (char*)malloc(sizeof(char)*100);
     }
     free(temp);
+    return;
 }
 
 Song* retriveSong(Song* playlist, int n){
@@ -61,13 +62,14 @@ void randomSong(Song *playlist, int n){
                 max = temp->ind;
                 pMax = k;
             }
-            temp = (temp->next);
+            temp = temp->next;
         }
 
         temp = retriveSong(playlist, pMax);
         printf("%d. %s - %s\n", temp->num, temp->title, temp->author);
         temp->ind = -1;    
     }
+    return;
 }       
 
 void rFree(Song* playlist){
@@ -75,6 +77,7 @@ void rFree(Song* playlist){
         rFree(playlist->next);
         free(playlist);
     }
+    return;
 }
 
 
@@ -82,13 +85,11 @@ void main(){
     srand(time(NULL));
 
     FILE *f;
-    int k;
     
-
     if((f=fopen("canzoni.csv","r"))==NULL){
         printf("FILE NON ESISTENTE");
     }else{
-        k=0;
+        int k=0;
         Song* playlist = (Song*)malloc(sizeof(Song));
         read(playlist,f,&k);
 
