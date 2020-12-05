@@ -14,47 +14,50 @@ typedef struct song{
     char author[LUNG];
     char title[LUNG];
     int ind;
-    struct song* next;
+    struct song* next;  //next element
 }Song;
 
 void read(Song* playlist, FILE *f, int *cnt){
-    char* line = (char*)malloc(sizeof(char)*100);
-    Song* temp = playlist;
+    char* line = (char*)malloc(sizeof(char)*LUNG_P); //line for reading file (with fgets)
 
     while(fgets(line,LUNG_P,f)){
-        temp->num = atoi(strtok(line,","));
-        strcpy(temp->author,(strtok(NULL,",")));
-        strcpy(temp->title,(strtok(NULL,",")));
+        playlist->num = 0;      //check the content of the variable is empty
+        *playlist->author = "";
+        *playlist->title = "";
 
-        temp->next = (Song*)malloc(sizeof(Song));
-        temp->ind = rand()%MAX_RAND;
-        temp = (temp->next);
+        playlist->num = atoi(strtok(line,","));
+        strcpy(playlist->title,(strtok(NULL,",")));
+        strcpy(playlist->author,strtok(NULL,","));
+        //playlist->author[strlen(playlist->author)] = '\0';
+        //playlist("%s", playlist->author);
+        
+        playlist->next = (Song*)malloc(sizeof(Song));   //allocation of memory for the next list
+        playlist->ind = rand()%MAX_RAND;    //index of the list is random because you cant acces a item of the list without intercat with the previous one
+        
+        playlist = (playlist->next); //use the next item in the list
 
-        *cnt++;
+        *cnt += 1; //count of item in the list
 
-        free(line);
+        free(line); //to prevent overflow the line variable, disallocate and riallocate it
         line = (char*)malloc(sizeof(char)*100);
     }
-    free(temp);
-    return;
 }
 
-Song* retriveSong(Song* playlist, int n){
-    Song* temp = playlist;
+Song* retriveSong(Song* playlist, int n){   // "navigate" to specificated item (n), and return it
     for(int k=0;k<n;k++){
-        temp=(temp->next);
+        playlist=(playlist->next);
     }
-    return temp;
+    return playlist;
 }
 
-void randomSong(Song *playlist, int n){
+void randomSong(Song *playlist, int n){ //make the max value of the random index and then print it
     int max, pMax;
 
     Song* temp;
 
     for(int i=0;i<n;i++){
-        temp=playlist;
-        pMax=0;
+        temp = playlist;
+        pMax = 0;
         max = temp->ind;
 
         for(int k=0;k<n;k++){
@@ -66,18 +69,17 @@ void randomSong(Song *playlist, int n){
         }
 
         temp = retriveSong(playlist, pMax);
-        printf("%d. %s - %s\n", temp->num, temp->title, temp->author);
+        printf("%d. %s - %s", temp->num, temp->title, temp->author);
+
         temp->ind = -1;    
     }
-    return;
 }       
 
-void rFree(Song* playlist){
+void rFree(Song* playlist){ //recursive function for deallocate the list
     if(playlist->next != NULL){
         rFree(playlist->next);
         free(playlist);
     }
-    return;
 }
 
 
@@ -96,6 +98,5 @@ void main(){
         fclose(f);
         randomSong(playlist,k);
         rFree(playlist);
-    }
-    
+    }   
 }
