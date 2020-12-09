@@ -32,7 +32,7 @@ void read(Song* playlist, FILE *f, int *cnt){
         //playlist("%s", playlist->author);
         
         playlist->next = (Song*)malloc(sizeof(Song));   //allocation of memory for the next list
-        playlist->ind = rand()%MAX_RAND;    //index of the list is random because you cant acces a item of the list without intercat with the previous one
+        playlist->ind = *cnt;    //index of the list is random because you cant acces a item of the list without intercat with the previous one
         
         playlist = (playlist->next); //use the next item in the list
 
@@ -51,28 +51,32 @@ Song* retriveSong(Song* playlist, int n){   // "navigate" to specificated item (
 }
 
 void randomSong(Song *playlist, int n){ //make the max value of the random index and then print it
-    int max, pMax;
+    srand(time(NULL));
 
-    Song* temp;
 
-    for(int i=0;i<n;i++){
-        temp = playlist;
-        pMax = 0;
-        max = temp->ind;
+    int* vRand = (int*)malloc(sizeof(int)*n);
+    Song* temp = (Song*)malloc(sizeof(Song)*n);
+    temp = playlist;
 
-        for(int k=0;k<n;k++){
-            if(max < temp->ind){
-                max = temp->ind;
-                pMax = k;
+
+    for(int k=0; k<n; k++){
+        *(vRand + k) = rand()%n;
+        for (int i = 0; i < k; i++)
+        {
+            if (*(vRand + k) == *(vRand + i))
+            {
+                k--;
+                break;
             }
-            temp = temp->next;
         }
-
-        temp = retriveSong(playlist, pMax);
-        printf("%d. %s - %s", temp->num, temp->title, temp->author);
-
-        temp->ind = -1;    
     }
+
+    for(int k=0; k<n;k++){
+        temp = retriveSong(playlist, *(vRand + k));
+        printf("%d. %s - %s", temp->num, temp->title, temp->author);
+    }
+
+    free(vRand);
 }       
 
 void rFree(Song* playlist){ //recursive function for deallocate the list
