@@ -75,8 +75,6 @@ void randomSong(Song *playlist, int n){ //make the max value of the random index
         temp = retriveSong(playlist, *(vRand + k));
         printf("%d. %s - %s", temp->num, temp->title, temp->author);
     }
-
-    free(vRand);
 }       
 
 void rFree(Song* playlist){ //recursive function for deallocate the list
