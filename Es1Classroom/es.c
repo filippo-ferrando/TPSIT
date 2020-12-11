@@ -6,31 +6,52 @@ struct El{
     struct El* next;
 };
 
-int is_empty(struct El *head){
-    if(head == NULL) return 1;
+int is_empty(struct El *lista){
+    if(lista == NULL) return 1;
     else return 0;
 }
 
-void stampa_lista(struct El *head){
-    if(is_empty(head)){
+void stampa_lista(struct El *lista){
+    if(is_empty(lista)){
         printf("lista vuota\n");
     }else{
-        struct El *tmp = head;
+        struct El *tmp = lista;
+        printf("Numeri inseriti: \n");
         while (tmp!=NULL){
-            printf("Numeri inseriti: \n");
-            printf("%d - %p", tmp->valore, tmp->next);
+            printf("%d - %p\n", tmp->valore, tmp->next);
             tmp = tmp->next;
         }
     }
 }
-
-void push(struct El **head, struct El *valore){
-    if(is_empty(*head)){
-        *head = valore;
-        valore->next = NULL;
+/*
+void push(struct El ** lista, int valore){
+    if(is_empty(*lista)){
+        lista = (struct El*)malloc(sizeof(struct El));
+        lista->valore = valore;
+        lista->next = NULL;
     }else{
-        valore->next = *head;
-        *head = valore;
+        while(lista->next!=NULL){
+            lista = lista->next;
+        }
+        lista->next = (struct El*)malloc(sizeof(struct El));
+        lista->next->valore = valore;
+        lista->next->next = NULL;
+    }
+}
+*/
+
+void push(struct El **lista, int valore){
+    if(is_empty(*lista)){
+        struct El *tmp;
+        *lista = tmp;
+        tmp->next = NULL;
+    }else{
+        struct El * tmp;
+        tmp = (struct El*)malloc(sizeof(struct El));
+
+        tmp->valore = valore;
+        tmp->next = *lista;
+        *lista = tmp; 
     }
 }
 
@@ -41,12 +62,13 @@ int main(){
     struct El* l;
 
     lista = NULL; //la lista creata potrebbe puntare a celle che già contengono dati, in questo modo si svuota il contenuto della cella
+    l = NULL;
 
     do{
         printf("Inserisci un naturale o -1 per terminare: ");
         scanf("%d", &n);
 
-        push(lista, n);
+        push(&lista, n);
         /*
         if(n>=0){
             if(lista == NULL){//controlla se la lista contiene dati o meno
