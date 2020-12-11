@@ -55,6 +55,14 @@ void push(struct El **lista, int valore){
     }
 }
 
+//### ES 4 ###
+void rfree(struct El* lista){
+    if(is_empty(lista)){
+        rfree(lista->next);
+        free(lista);
+    }
+}
+
 int main(){
     int n;
 
@@ -95,6 +103,9 @@ int main(){
     }
     */
    stampa_lista(l);
+
+   rfree(lista);
+   rfree(l);
 
     printf("\n");
     return 0;
