@@ -11,6 +11,7 @@ int is_empty(struct El *lista){
     else return 0;
 }
 
+//## ES 2 ##
 void stampa_lista(struct El *lista){
     if(is_empty(lista)){
         printf("lista vuota\n");
@@ -23,6 +24,8 @@ void stampa_lista(struct El *lista){
         }
     }
 }
+
+
 /*
 void push(struct El ** lista, int valore){
     if(is_empty(*lista)){
@@ -40,6 +43,7 @@ void push(struct El ** lista, int valore){
 }
 */
 
+// ## Es 2 ##
 void push(struct El **lista, int valore){
     if(is_empty(*lista)){
         struct El *tmp;
@@ -56,7 +60,7 @@ void push(struct El **lista, int valore){
 }
 
 //### ES 4 ###
-void rfree(struct El* lista){
+void deallocaLista(struct El * lista){
     if(is_empty(lista)){
         rfree(lista->next);
         free(lista);
@@ -94,6 +98,7 @@ int main(){
     }while(n>=0);
 
     l = lista; //ritorno al prima elemento nella lista
+
     /*
     printf("Numeri inseriti: \n");
     
@@ -102,10 +107,11 @@ int main(){
         l=l->next;//stampo i valori della lista, dopodichè passo alla lista successiva
     }
     */
+
    stampa_lista(l);
 
-   rfree(lista);
-   rfree(l);
+   deallocaLista(lista);
+   deallocaLista(l);
 
     printf("\n");
     return 0;
