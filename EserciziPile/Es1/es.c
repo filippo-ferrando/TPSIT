@@ -4,7 +4,7 @@
 #include <string.h>
 
 struct El{
-    int valore;
+    char valore;
     struct El* next;
 }El;
 
@@ -56,8 +56,11 @@ void main(){
         push(&head,element);
     }
 
-    printf("|CARICAMNETO COMPLETATO|");
+    printf("|CARICAMNETO COMPLETATO|\n");
 
     //stampo la pila
     stampaPila(&head);
+
+    free(head);
+    free(element);
  }

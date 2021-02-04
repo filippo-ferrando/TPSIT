@@ -27,9 +27,9 @@ struct El* pop(struct El** head){
 }
 
 int main(){
-    struct El* head;
-    struct El* element;
-    struct El* ret;
+    struct El* head = NULL;
+    struct El* element = NULL;
+    struct El* ret = NULL;
 
     bool correct = true;    //divanta false se incotra una parentesi chiusa diversa da quella aperta
 
@@ -48,8 +48,13 @@ int main(){
         }
         if(espressione[i] == ')' || espressione[i] == ']' || espressione[i] == '}'){
             ret = pop(&head);
-            if(ret->valore != ret->valore-2) correct = false;
-            else ret = pop(&head);
+            if(ret->valore != ret->valore-2){
+                correct = false;
+                printf(" sono gay ");
+            }else{
+                ret = pop(&head);
+                correct = true;
+            } 
         }
     }
 
