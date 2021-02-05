@@ -1,14 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
+#include <math.h>
 
-struct El{
+typedef struct nodo{
     char valore;
-    struct El* next;
-}El;
+    struct nodo *next;
+}Nodo;
 
-void push(struct El** head, struct El* element){
-    if(&head == NULL){
+int isEmpty(Nodo *head){
+    if(head == NULL)
+        return 1;
+    else
+        return 0;   
+}
+
+void push(Nodo **head, Nodo *element){
+    if(isEmpty(*head)){     //= if(isEmpty(*head) == 0)
         *head = element;
         element->next = NULL;
     }else{
@@ -17,48 +26,70 @@ void push(struct El** head, struct El* element){
     }
 }
 
-struct El* pop(struct El** head){
-    struct El* ret = *head;
-    if(&head == NULL) return NULL;
-    else *head = ret->next;
+Nodo *pop(Nodo **head){
+    Nodo *ret = *head;
 
+    if(isEmpty(*head)){
+        return NULL;
+    }else{
+        *head = ret->next;
+    }
     return ret;
-    
 }
 
 int main(){
-    struct El* head = NULL;
-    struct El* element = NULL;
-    struct El* ret = NULL;
+    char stringa[100];
+    Nodo *head = NULL;
+    Nodo *pila = NULL;
+    Nodo *appoggio = NULL;
+    bool ok = true;
 
-    bool correct = true;    //divanta false se incotra una parentesi chiusa diversa da quella aperta
+    printf("inserisci una stringa con parentesi graffe tonde e quandre al suo interno: ");
+    scanf("%s", stringa);
 
-    char espressione[1000]; //stringa da verificare
+    for(int k = 0; stringa[k] != '\0' && ok == true; k++){
+        pila = (Nodo*) malloc(sizeof(Nodo));
+        pila->valore = stringa[k];
 
-    printf("inserisci la serie di parentesi:\n");
-    fflush(stdin);
-    scanf("%s" , espressione);
-
-    //a seconda che la parentesi sia aperta o chiusa carico o tolgo un elemento nell pila
-    for (int i = 0; espressione[i]!='\0' && correct; i++){
-        if(espressione[i] == '(' || espressione[i] == '[' || espressione[i] == '{' || espressione[i] == ')' || espressione[i] == ']' || espressione[i] == '}'){
-            element = (struct El*) malloc(sizeof(struct El));
-            element->valore = espressione[i];
-            push(&head,element);
-        }
-        if(espressione[i] == ')' || espressione[i] == ']' || espressione[i] == '}'){
-            ret = pop(&head);
-            if(ret->valore != ret->valore-2){
-                correct = false;
-                printf(" sono gay ");
+        if(stringa[k] == '(' || stringa[k] == '[' || stringa[k] == '{'){
+            push(&head, pila);
+            
+        }else if(stringa[k] == ')'){
+            appoggio = pop(&head);
+            if(appoggio != NULL){
+                if(appoggio->valore != '(')
+                    ok = false;
             }else{
-                ret = pop(&head);
-                correct = true;
-            } 
+                ok = false;
+                break;
+            }
+
+        }else if(stringa[k] == ']'){
+            appoggio = pop(&head);
+            if(appoggio != NULL){
+                if(appoggio->valore != '[')
+                    ok = false;
+            }else{
+                ok = false;
+                break;
+            }
+
+        }else if(stringa[k] == '}'){
+            appoggio = pop(&head);
+            if(appoggio != NULL){
+                if(appoggio->valore != '{')
+                    ok = false;
+            }else{
+                ok = false;
+                break;
+            }  
         }
     }
 
-    if(correct) printf("espressione inserita correttamente");
-    else printf("espressione errata");
+    if(ok == true)
+        printf("Ordine parentesi corretto");
+    else
+        printf("Ordine parentesi errato");
+
     return 0;
 }
