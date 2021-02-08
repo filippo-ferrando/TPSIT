@@ -44,7 +44,7 @@ int main(){
     Nodo *appoggio = NULL;
     bool ok = true;
 
-    printf("inserisci una stringa con parentesi graffe tonde e quandre al suo interno: ");
+    printf("inserisci una stringa: ");
     scanf("%s", stringa);
 
     for(int k = 0; stringa[k] != '\0' && ok == true; k++){

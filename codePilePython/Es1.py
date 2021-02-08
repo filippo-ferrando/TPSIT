@@ -1,31 +1,38 @@
 #data una qualunque stringa controllare se le parentesi sono giuste o sbagliate
 
-def push_ (stack, element):
-    stack.append(element)
+def controlloStr(stringa):
+    pila=[]
+    aperte = ["(","[","{"]
+    chiuse = [")","]","}"]
 
-#wrapper per pop
-def pop_ (stack):
-    return stack.pop()
+    assegnazioni = {"(":")", "[":"]", "{":"}", ")":"(", "]":"[", "}":"{"}
+    
+    for p in stringa:
+        if p in aperte:
+            pila.append(p)
+        elif p in chiuse:
+            if len(pila) != 0:
+                if p != assegnazioni[pila.pop()] :
+                    return False
+            else:
+                return False
+
+    if len(pila) > 0:
+        return False
+
+
+    return True  
 
 def main():
-    pila=[]
     x = input("Inserisci la stringa: ")
-    ok = True
+    
+    ok = controlloStr(x)
 
-    dizioPar={")":"(", "]":"[", "}":"{"}
-
-    for p in x:
-        if p=="(" or p=="[" or p=="{":
-            push_(pila, p)
-        if p==")" or p=="]" or p=="}":
-            if pop_(pila)!=dizioPar[p] or len(pila)==0:
-                ok = True
-        ok = False
-
-    if ok:
-        print("espressione corretta")
+    if ok == True:
+        print("Stringa corretta")
     else:
-        print("espressione errata")
+        print("Stringa Errata")
+
 
 
 if __name__ == "__main__":
