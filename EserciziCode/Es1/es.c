@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct queue_node{
+struct queue_node{
     struct queue_node *next;
     int val;
 };
@@ -52,9 +52,11 @@ void main(){
         ret->val = valore;        
 
         enqueue(&head, &tail, ret);
-    }while(valore == -1);
+    }while(valore != -1);
+
+    printf("\n");
 
     while(isEmpty(head) == 0){
-        printf("%d", (dequeue(&head, &tail))->val);
+        printf("%d\n", (dequeue(&head, &tail))->val);
     }
 }

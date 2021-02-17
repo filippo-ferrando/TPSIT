@@ -3,7 +3,7 @@ def dequeue(queue):
     return queue.pop(0)
 
 #wrapper per enqueue
-def enqueue(queue, element):]
+def enqueue(queue, element):
     queue.append(element)
 
 
