@@ -1,0 +1,42 @@
+/*
+Author: Michele Alladio
+es: Implementare le funzioni pop e push usando la enqueue e la dequeue.
+*/
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <math.h>
+#include <string.h>
+
+typedef struct el{
+    int campo1;
+    float campo2;
+    struct el *next;
+}El;
+
+void enqueue(El **head, El **tail, El *element){
+    if(isEmpty(*head))
+        *head = element;
+    else
+        (*tail)->next = element;
+
+    *tail = element;
+    element->next = NULL;
+}
+
+void leggiFileVolo(FILE *f, El **head, El **tail, El *element){
+    char *riga = (char*) malloc(200 * sizeof(char));    //puntatore per le righe del file
+
+    printf("LISTA VOLO:\n");
+
+    while(fgets(riga, 200, f)){ //legge una riga intera del file
+        element = (El*) malloc(sizeof(El));
+        
+        element->campo1 = atoi(strtok(riga, ",\n")); //atoi permette di convertire una stringa in un intero
+        element->campo2 = atof(strtok(NULL, ",\n"));   //atof permette di convertire una stringa in un float
+
+        enqueue(&head, &tail, element);
+    }
+    free(riga); //disalloca lo spazio per la riga
+}
