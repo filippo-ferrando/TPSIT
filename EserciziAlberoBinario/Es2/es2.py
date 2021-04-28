@@ -1,3 +1,5 @@
+import math
+
 class Node:
     def __init__(self,data):
         self.left = None
@@ -19,12 +21,11 @@ class Node:
         else:
             self.data = data
 
-        #print (self.data)            
 
     def PrintTree(self):
         if self.left:
             self.left.PrintTree()
-        #print( self.data),
+        print( self.data),
         if self.right:
             self.right.PrintTree()
 
@@ -37,15 +38,14 @@ class Node:
             res = res + self.inorderTrasversal(root.right)
         return res
 
-    def NodeCount(self, root):
-        return len(self.inorderTrasversal(root))
+    def onlyPari(self, lst):
+        pari = []
+        for n in lst:
+            if n % 2 == 0:
+                pari.append(n)
+        return pari
 
-    def height(self, root):
-        if root is None:
-            return 0
-        else:
-            alt = 1 + max(self.height(root.left), self.height(root.right))
-            return alt
+
 
 root = Node(10)
 root.insert(23)
@@ -60,6 +60,4 @@ root.PrintTree()
 print("\n")
 print(root.inorderTrasversal(root))
 print("\n")
-print(root.NodeCount(root))
-print("\n")
-print(root.height(root))
+print(root.onlyPari(root.inorderTrasversal(root)))
